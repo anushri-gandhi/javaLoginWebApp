@@ -74,12 +74,71 @@ public class ProductDAO {
         return list;
     }
 
+    public Product getById(int id) {
+        ensureTable();
+        String sql = "SELECT * FROM product WHERE product_id = ?";
+
+        try (Connection c = DB.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("product_name"),
+                        rs.getString("product_description"),
+                        rs.getString("product_color"),
+                        rs.getString("product_size"),
+                        rs.getDouble("product_price")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+    public void update(Product p) {
+        ensureTable();
+        String sql = """
+            UPDATE product
+            SET product_name = ?,
+                product_description = ?,
+                product_color = ?,
+                product_size = ?,
+                product_price = ?
+            WHERE product_id = ?
+        """;
+
+        try (Connection c = DB.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setString(1, p.getName());
+            ps.setString(2, p.getDescription());
+            ps.setString(3, p.getColor());
+            ps.setString(4, p.getSize());
+            ps.setDouble(5, p.getPrice());
+            ps.setInt(6, p.getProductId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void delete(int id) {
         try (Connection c = DB.getConnection();
              PreparedStatement ps =
                      c.prepareStatement("DELETE FROM product WHERE product_id=?")) {
+
             ps.setInt(1, id);
             ps.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
