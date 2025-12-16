@@ -26,6 +26,7 @@
         <th>Color</th>
         <th>Size</th>
         <th>Price</th>
+        <th>Actions</th>
     </tr>
 
     <%
@@ -39,6 +40,20 @@
         <td><%= p.getColor() %></td>
         <td><%= p.getSize() %></td>
         <td>$<%= p.getPrice() %></td>
+
+        <td>
+            <!-- Update button -->
+            <form method="get" action="updateProduct" style="display:inline;">
+                <input type="hidden" name="id" value="<%= p.getProductId() %>">
+                <button type="submit">Update</button>
+            </form>
+
+            <!-- Delete button -->
+            <form method="post" action="deleteProduct" style="display:inline;">
+                <input type="hidden" name="id" value="<%= p.getProductId() %>">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     <%
             }
