@@ -19,15 +19,14 @@
 <body>
 <h1>Update Product</h1>
 
-<form method="post" action="product_update">
-    <input type="hidden" name="id" value="<%= p.getId() %>">
+<form method="post" action="updateProduct">
+    <input type="hidden" name="id" value="<%= p.getProductId() %>">
     Name: <input type="text" name="name" value="<%= p.getName() %>" required><br><br>
-    Description: <input type="text" name="description" value="<%= p.getDescription() %>"><br><br>
-    Color: <input type="text" name="color" value="<%= p.getColor() %>"><br><br>
-    Size: <input type="text" name="size" value="<%= p.getSize() %>"><br><br>
+    Description: <input type="text" name="description" value="<%= p.getDescription() %>" required><br><br>
+    Color: <input type="text" name="color" value="<%= p.getColor() %>" required><br><br>
+    Size: <input type="text" name="size" value="<%= p.getSize() %>" required><br><br>
     Price: <input type="number" step="0.01" name="price" value="<%= p.getPrice() %>" required><br><br>
     <button type="submit">Update Product</button>
-</form>
 
 <p><a href="${pageContext.request.contextPath}/product_read">Back to Product List</a></p>
 </body>
